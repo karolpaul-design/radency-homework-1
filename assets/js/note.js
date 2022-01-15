@@ -26,7 +26,7 @@ const notesData = [
   {
     name: "William Gaddis",
     created: "May 07, 2021",
-    category: "Quote",
+    category: "Random Thought",
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti, modi.",
     dates: "",
@@ -49,13 +49,61 @@ const date = () => {
   return arr.join(" ");
 };
 
-const selectCategory = () => {
-  return `<select name="select"> 
-    <option value="Task">Task</option>
-    <option value="Random Thought" selected>Random Thought</option>
-    <option value="Idea">Idea</option>
+const selectCategory = (category) => {
+  switch (category) {
+    case "Task":
+      return `<select name="select"> 
+    <option value="Task" selected>Task</option>
+    <option value="Random Thought" >Random Thought</option>
+    <option value="Idea" >Idea</option>
   </select>`;
+    case "Random Thought":
+      return `<select name="select"> 
+    <option value="Task">Task</option>
+    <option value="Random Thought" selected >Random Thought</option>
+    <option value="Idea" >Idea</option>
+  </select>`;
+    case "Idea":
+      return `<select name="select"> 
+    <option value="Task">Task</option>
+    <option value="Random Thought" >Random Thought</option>
+    <option value="Idea" selected>Idea</option>
+  </select>`;
+    default:
+      return `<select name="select" > 
+      <option value="empty">empty</option>
+      
+    </select>`;
+  }
 };
+
+function getData() {
+  try {
+    notesData.forEach(function (obj) {
+      let name = obj.name;
+      let created = obj.created;
+      let category = obj.category;
+      let content = obj.content;
+      let dates = obj.date;
+      let row = `
+                        <tr >
+                            <td>${name}</td>
+                            <td>${created}</td>
+                            
+                            <td>${category}</td>
+                            <td>${content}</td>
+                            <td ></td>
+                            <td >${operateFormatter()}</td>
+                        </tr>
+                        `;
+      table.insertAdjacentHTML("afterbegin", row);
+    });
+  } catch (error) {
+    console.log(error);
+    alert("NO DATA RECIEVED!");
+  }
+}
+
 function edit() {
   let element = this.event.target;
 
@@ -63,42 +111,19 @@ function edit() {
   let name = row.cells[0].innerHTML;
   let content = row.cells[3].innerHTML;
   let created = row.cells[1].innerHTML;
-  console.log(element, row, name, content, created);
+  let category = row.cells[2].innerHTML;
+
   let newRow = `
       <tr>
           <td><input type="text" value="${name}"></td>
           <td>${created}</td>
-          <td>${selectCategory()}</td>
+          <td>${selectCategory(category)}</td>
           <td><input type="text" value="${content}"></td>
           <td></td>
           <td >${operateFormatterSave()}</td>
       </tr>
       `;
   row.innerHTML = newRow;
-}
-function getData() {
-  notesData.forEach(function (obj) {
-    let name = obj.name;
-    let created = obj.created;
-    let category = obj.category;
-    let content = obj.content;
-    let dates = obj.date;
-    let row = `
-                        <tr >
-                            <td>${name}</td>
-                            <td>${created}</td>
-                            <td>${category}</td>
-                            <td>${content}</td>
-                            <td ></td>
-                            <td >${operateFormatter()}</td>
-                        </tr>
-                        `;
-    table.insertAdjacentHTML("afterbegin", row);
-  });
-  // },
-  // error: function () {
-  //   alert("NO DATA RECEIVED!");
-  // },
 }
 
 function addNote() {
@@ -121,6 +146,7 @@ function save() {
   let name = row.cells[0].firstChild.value;
   let created = row.cells[1].innerHTML;
   let category = row.cells[2].firstChild.value;
+
   let content = row.cells[3].firstChild.value;
   //   let dates = row.cells[4].firstChild.value;
   let newRow = `
@@ -136,37 +162,62 @@ function save() {
   row.innerHTML = newRow;
 }
 
+function deleteContent() {
+  let element = this.event.target;
+  let row = element.closest("tr").remove();
+}
+
+function archieve() {
+  let element = this.event.target;
+
+  let row = element.closest("tr");
+  let name = row.cells[0].innerHTML;
+  let content = row.cells[3].innerHTML;
+  let created = row.cells[1].innerHTML;
+  let category = row.cells[2].innerHTML;
+  let newRow = `
+      <tr>
+        <td>      </td>
+        <td>      </td>
+      
+        <td>Archieved</td>
+        <td>       </td>
+        <td >       </td>
+        <td >${operateFormatterUnArchieve()}</td>
+      
+        
+      </tr>
+      `;
+
+  row.style.display = "none";
+  row.insertAdjacentHTML("afterend", newRow);
+}
+function unArchieve(e) {
+  let element = this.event.target;
+  let row = element.closest("tr ").previousElementSibling;
+  let rowArchieve = element.closest("tr ").remove();
+
+  let name = row.cells[0].innerHTML;
+  let content = row.cells[3].innerHTML;
+  let created = row.cells[1].innerHTML;
+  let category = row.cells[2].innerHTML;
+  row.style.display = "table-row";
+}
+
 const $table = $("#fresh-table");
 
-window.operateEvents = {
-  // "click .like": function (e, value, row, index) {
-  //   alert("You click like icon, row: " + JSON.stringify(row));
-  //   console.log(value, row, index);
-  // },
-  // "click .edit": function () {
-  //   edit();
-  //   console.log(edit);
-  //   console.log(value, row, index);
-  // },
-  // "click .remove": function (e, value, row, index) {
-  //   $table.bootstrapTable("remove", {
-  //     field: "name",
-  //     values: [row.name],
-  //   });
-  //   console.log(row);
-  // },
-};
+window.operateEvents = {};
 
 function operateFormatter() {
   return [
     '<a rel="tooltip" title="Edit" onclick="edit()" class="table-action edit" href="javascript:void(0)" title="Edit">',
     '<i class="fa fa-edit"></i>',
     "</a>",
-    '<a rel="tooltip"  title="Archive" class="table-action like" href="javascript:void(0)" title="Like">',
+    '<a rel="tooltip" onclick="archieve()" title="Archive" class="table-action like" href="javascript:void(0)" title="Like">',
     '<i class="fas fa-folder"></i>',
     "</a>",
 
-    '<a rel="tooltip" title="Remove" class="table-action remove" href="javascript:void(0)" title="Remove">',
+    '<a rel="tooltip" title="Remove" onclick="deleteContent()" class="table-action remove" href="javascript:void(0)" title="Remove">',
     '<i class="fas fa-trash"></i>',
     "</a>",
   ].join("");
@@ -180,7 +231,21 @@ function operateFormatterSave() {
     '<i class="fas fa-folder"></i>',
     "</a>",
 
-    '<a rel="tooltip" title="Remove" class="table-action remove" href="javascript:void(0)" title="Remove">',
+    '<a rel="tooltip" title="Remove" onclick="deleteContent()" class="table-action remove" href="javascript:void(0)" title="Remove">',
+    '<i class="fas fa-trash"></i>',
+    "</a>",
+  ].join("");
+}
+function operateFormatterUnArchieve() {
+  return [
+    '<a rel="tooltip" title="Edit"  class="table-action edit" href="javascript:void(0)" title="Edit">',
+    '<i class="fa fa-edit"></i>',
+    "</a>",
+    '<a rel="tooltip"  title="Unarchive" onclick="unArchieve()" class="table-action like" href="javascript:void(0)" title="Like">',
+    '<i class="fas fa-folder"></i>',
+    "</a>",
+
+    '<a rel="tooltip" title="Remove" onclick="deleteContent()" class="table-action remove" href="javascript:void(0)" title="Remove">',
     '<i class="fas fa-trash"></i>',
     "</a>",
   ].join("");
