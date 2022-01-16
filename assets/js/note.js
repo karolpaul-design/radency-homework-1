@@ -1,5 +1,3 @@
-console.log("hello");
-// import { notesData } from "./data.js";
 const notesData = [
   {
     name: "Shopping list",
@@ -13,7 +11,7 @@ const notesData = [
     created: "April 27, 2021",
     category: "Random Thought",
     content:
-      "Evolution is Lorem ipsum dolor sit amet consectetur adipisicing elit Vitae!",
+      " Lorem ipsum dolor sit amet 3/5/2021 consectetur adipisicing elit. Id nostrum laudantium rerum, quas 5/5/2021 consequuntur officia aut amet 20/11/2021 quos similique numquam?",
     dates: "",
   },
   {
@@ -47,6 +45,13 @@ const date = () => {
   arr.shift();
   arr[1] += ",";
   return arr.join(" ");
+};
+
+const datesSearch = (str) => {
+  let s = /[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,4}/g;
+  let arr = str.match(s);
+
+  return arr !== null ? arr.join(", ") : "";
 };
 
 const selectCategory = (category) => {
@@ -84,7 +89,7 @@ function getData() {
       let created = obj.created;
       let category = obj.category;
       let content = obj.content;
-      let dates = obj.date;
+      let dates = datesSearch(obj.content);
       let row = `
                         <tr >
                             <td>${name}</td>
@@ -92,7 +97,7 @@ function getData() {
                             
                             <td>${category}</td>
                             <td>${content}</td>
-                            <td ></td>
+                            <td >${dates}</td>
                             <td >${operateFormatter()}</td>
                         </tr>
                         `;
@@ -112,14 +117,14 @@ function edit() {
   let content = row.cells[3].innerHTML;
   let created = row.cells[1].innerHTML;
   let category = row.cells[2].innerHTML;
-
+  let dates = row.cells[4].innerHTML;
   let newRow = `
       <tr>
           <td><input type="text" value="${name}"></td>
           <td>${created}</td>
           <td>${selectCategory(category)}</td>
           <td><input type="text" value="${content}"></td>
-          <td></td>
+          <td>${dates}</td>
           <td >${operateFormatterSave()}</td>
       </tr>
       `;
@@ -146,16 +151,17 @@ function save() {
   let name = row.cells[0].firstChild.value;
   let created = row.cells[1].innerHTML;
   let category = row.cells[2].firstChild.value;
-
   let content = row.cells[3].firstChild.value;
+  let dates = datesSearch(content);
+
   //   let dates = row.cells[4].firstChild.value;
   let newRow = `
-      <tr>
+      <tr> 
           <td>${name}</td>
           <td>${created}</td>
           <td>${category}</td>
           <td>${content}</td>
-          <td></td>
+          <td>${dates}</td>
           <td>${operateFormatter()}</td>
       </tr>
       `;
