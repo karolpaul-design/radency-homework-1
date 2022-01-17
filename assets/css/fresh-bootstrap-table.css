@@ -1585,6 +1585,7 @@ input[type=file] > input[type=button]::-moz-focus-inner {
   padding: 0;
   width: 15px;
 }
+fixed-table-container
 .fresh-table .bootstrap-table .table > tfoot > tr > th,
 .fresh-table .bootstrap-table .table > thead > tr > th,
 .fresh-table .bootstrap-table .table > tbody > tr > td,
@@ -1610,3 +1611,49 @@ input[type=file] > input[type=button]::-moz-focus-inner {
 }
 
 /*# sourceMappingURL=fresh-bootstrap-table.css.map */
+td{
+  max-width: 30px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+input, select{
+  line-height: normal;
+  padding: 0;
+  font-size: .9em;
+  color: black;
+}
+.fresh-table{
+  height: 100vh;
+}
+.btn{
+  margin-top: 30px;
+  float: right;
+  margin-right: 26rem;
+  padding: 6px 12px;
+  font-size: 12.5px;
+}@media only screen and (max-width: 1400px) {
+  .btn{
+
+     margin-right: 15rem;
+
+  }}
+@media only screen and (max-width: 1200px) {
+  .btn{
+
+     margin-right: 12.5rem;
+
+  }}
+@media only screen and (max-width: 900px) {
+  .btn{
+
+     margin-right: 8rem;
+
+  }}
+@media only screen and (max-width: 600px) {
+  .btn{
+
+     margin-right: 3.5rem;
+
+  }}
