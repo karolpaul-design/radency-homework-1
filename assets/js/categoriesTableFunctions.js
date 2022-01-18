@@ -1,53 +1,44 @@
+function getDataSummary() {
+  categories.forEach((item) => {
+    let row = `<tr id="${item.toLowerCase()}-category">
+                <td>${item}</td>
+                <td class="category-actives">0</td> 
+                <td class="category-archieved">0</td>
+               </tr>`;
+    categoryTable.insertAdjacentHTML("beforeend", row);
+  });
+}
+
 function changer() {
   const arr = [];
+
+  //Get array with list of category of every note and their actieve or archieved status
   notesTable.children.forEach((item) => {
     let row = item;
     row.style.display === "none" || row.children[2].innerHTML === "empty"
       ? null
       : row.children[2].innerHTML !== "Archieved"
-      ? arr.push(row.children[2].innerHTML)
-      : arr.push([row.children[2].innerHTML, row.getAttribute("data")]);
+      ? arr.push([row.children[2].innerHTML, "Active"])
+      : arr.push([row.getAttribute("data"), row.children[2].innerHTML]);
   });
 
-  categoryTable.children[0].children[1].innerHTML = 0;
-  categoryTable.children[1].children[1].innerHTML = 0;
-  categoryTable.children[2].children[1].innerHTML = 0;
-  categoryTable.children[0].children[2].innerHTML = 0;
-  categoryTable.children[1].children[2].innerHTML = 0;
-  categoryTable.children[2].children[2].innerHTML = 0;
+  const categoriesElements = categoryTable.children;
+  const activeNums = document.querySelectorAll(".category-actives");
+  const archievedNums = document.querySelectorAll(".category-archieved");
 
-  arr.forEach((category) => {
-    switch (category) {
-      case "Task":
-        categoryTable.children[0].children[1].innerHTML =
-          +categoryTable.children[0].children[1].innerHTML + 1;
+  activeNums.forEach((item) => (item.innerHTML = 0));
+  archievedNums.forEach((item) => (item.innerHTML = 0));
 
-        return;
-      case "Random Thought":
-        categoryTable.children[1].children[1].innerHTML =
-          +categoryTable.children[1].children[1].innerHTML + 1;
-        return;
-      case "Idea":
-        categoryTable.children[2].children[1].innerHTML =
-          +categoryTable.children[2].children[1].innerHTML + 1;
-        return;
-      default:
-        switch (category[1]) {
-          case "Task":
-            categoryTable.children[0].children[2].innerHTML =
-              +categoryTable.children[0].children[2].innerHTML + 1;
-
-            return;
-          case "Random Thought":
-            categoryTable.children[1].children[2].innerHTML =
-              +categoryTable.children[1].children[2].innerHTML + 1;
-            return;
-          case "Idea":
-            categoryTable.children[2].children[2].innerHTML =
-              +categoryTable.children[2].children[2].innerHTML + 1;
-            return;
-        }
-    }
+  arr.forEach((categoryArr) => {
+    categoriesElements.forEach((categoryLine) => {
+      if (categoryLine.children[0].innerHTML === categoryArr[0]) {
+        categoryArr[1] === "Active"
+          ? (categoryLine.children[1].innerHTML =
+              +categoryLine.children[1].innerHTML + 1)
+          : (categoryLine.children[2].innerHTML =
+              +categoryLine.children[2].innerHTML + 1);
+      }
+    });
   });
 
   return arr;
