@@ -35,7 +35,7 @@
     <script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.js"></script>
   </head>
 
-  <body onload="getData(), changer()">
+  <body onload="getData(), getDataSummary(), changer()">
     <div class="wrapper full-color-orange">
       <div class="fresh-table full-color-orange full-screen-table">
         <table id="fresh-table" class="table">
@@ -54,14 +54,7 @@
             </th>
           </thead>
           <tbody id="table-notes">
-            <tr style="display: none">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            <tr style="display: none"></tr>
           </tbody>
         </table>
         <div>
@@ -75,26 +68,7 @@
             <th data-field="active">Active</th>
             <th data-field="archieved">Archieved</th>
           </thead>
-          <tbody id="table-category">
-            <tr id="task-category">
-              <td>Task</td>
-              <td>0</td>
-
-              <td>0</td>
-            </tr>
-            <tr id="random-category">
-              <td>Random Thought</td>
-              <td>0</td>
-
-              <td>0</td>
-            </tr>
-            <tr id="idea-category">
-              <td>Idea</td>
-              <td>0</td>
-
-              <td>0</td>
-            </tr>
-          </tbody>
+          <tbody id="table-category"></tbody>
         </table>
       </div>
     </div>

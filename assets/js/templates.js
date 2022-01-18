@@ -13,32 +13,21 @@ const datesSearch = (str) => {
 };
 
 const selectCategory = (category) => {
-  switch (category) {
-    case "Task":
-      return `<select name="select"> 
-      <option value="Task" selected>Task</option>
-      <option value="Random Thought" >Random Thought</option>
-      <option value="Idea" >Idea</option>
+  const newCategories = [...categories];
+  console.log(category);
+  category === "empty" ? newCategories.unshift("empty") : null;
+
+  return `<select name="select">
+      ${newCategories.map((item) => {
+        console.log(item);
+        if (item === category && item !== "empty") {
+          return `<option value="${item}" selected>${item}</option>`;
+        } else if (item === "empty") {
+          return `<option value="${item}" style="display:none" >
+          </option>`;
+        } else {
+          return `<option value="${item}" >${item}</option>`;
+        }
+      })}
     </select>`;
-    case "Random Thought":
-      return `<select name="select"> 
-      <option value="Task">Task</option>
-      <option value="Random Thought" selected >Random Thought</option>
-      <option value="Idea" >Idea</option>
-    </select>`;
-    case "Idea":
-      return `<select name="select"> 
-      <option value="Task">Task</option>
-      <option value="Random Thought" >Random Thought</option>
-      <option value="Idea" selected>Idea</option>
-    </select>`;
-    default:
-      return `<select name="select" > 
-        <option value="empty"  style="display:none">empty</option>
-        <option value="Task">Task</option>
-      <option value="Random Thought" >Random Thought</option>
-      <option value="Idea" >Idea</option>
-        
-      </select>`;
-  }
 };

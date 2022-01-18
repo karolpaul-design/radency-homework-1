@@ -92,9 +92,11 @@ function save() {
   let row = element.closest("tr");
   let name = row.cells[0].firstChild.value;
   let created = row.cells[1].innerHTML;
+  console.log(row.cells[2].firstChild);
   let category = row.cells[2].firstChild.value;
   let content = row.cells[3].firstChild.value;
   let dates = datesSearch(content);
+  console.log(category);
   let newRow = `
         <tr> 
             <td>${name}</td>
@@ -115,14 +117,9 @@ function deleteContent() {
 
 function archieve() {
   let element = this.event.target;
-
   let row = element.closest("tr");
-  let name = row.cells[0].innerHTML;
-  let content = row.cells[3].innerHTML;
-  let created = row.cells[1].innerHTML;
   let category = row.cells[2].innerHTML;
   let newRow = `
-    
         <tr data="${category}">
           <td>      </td>
           <td>      </td>
@@ -149,11 +146,6 @@ function unArchieve(e) {
   let row = element.closest("tr ").previousElementSibling;
   let nextRow = element.closest("tr ").nextElementSibling.remove();
   let rowArchieve = element.closest("tr ").remove();
-
-  let name = row.cells[0].innerHTML;
-  let content = row.cells[3].innerHTML;
-  let created = row.cells[1].innerHTML;
-  let category = row.cells[2].innerHTML;
   row.style.display = "table-row";
 }
 
