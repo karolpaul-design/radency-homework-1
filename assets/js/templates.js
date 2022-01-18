@@ -14,12 +14,12 @@ const datesSearch = (str) => {
 
 const selectCategory = (category) => {
   const newCategories = [...categories];
-  console.log(category);
+ 
   category === "empty" ? newCategories.unshift("empty") : null;
 
   return `<select name="select">
       ${newCategories.map((item) => {
-        console.log(item);
+      
         if (item === category && item !== "empty") {
           return `<option value="${item}" selected>${item}</option>`;
         } else if (item === "empty") {
