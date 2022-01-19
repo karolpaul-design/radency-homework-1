@@ -92,11 +92,11 @@ function save() {
   let row = element.closest("tr");
   let name = row.cells[0].firstChild.value;
   let created = row.cells[1].innerHTML;
-  console.log(row.cells[2].firstChild);
+
   let category = row.cells[2].firstChild.value;
   let content = row.cells[3].firstChild.value;
   let dates = datesSearch(content);
-  console.log(category);
+
   let newRow = `
         <tr> 
             <td>${name}</td>
